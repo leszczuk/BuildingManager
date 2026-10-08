@@ -204,11 +204,12 @@ button.row:hover{background:var(--surface)}
 .stage-t{flex:1 1 200px;min-width:0}
 .stage-h b{font-size:14.5px}
 .stage-h .stn{margin-left:auto;font-size:12px;font-weight:600;white-space:nowrap;padding-left:8px}
-.verdict{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:6px}
 .vb{border:1.5px solid var(--line);background:var(--raised);border-radius:4px;padding:7px 4px;font-weight:600;font-size:13px;min-height:36px}
 .vb.ok{color:var(--ok)} .vb.fault{color:var(--bad)} .vb.na{color:var(--na)} .vb.nie{color:var(--fg)}
 .vb.nie[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--raised)}
 .vb.ok[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--raised)}
+.vb.part{color:var(--ok)} .vb.part[aria-pressed="true"]{background:linear-gradient(90deg,var(--ok) 50%,var(--raised) 50%);border-color:var(--ok);color:var(--fg)}
 .vb.fault[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:var(--raised)}
 .vb.na[aria-pressed="true"]{background:var(--na);border-color:var(--na);color:var(--raised)}
 .vb.sm{min-height:28px;padding:3px 7px;font-size:12px}
@@ -290,7 +291,7 @@ tr.t-free td{color:var(--muted)}
 <button class="syncb" id="syncb" type="button" data-act="sync" hidden></button>
 
 <script>
-window.BM_ONLINE={"wersja":"688f20b5b3"};
+window.BM_ONLINE={"wersja":"512524ce0f"};
 </script>
 <script>
 window.BM_start=function(){
@@ -562,7 +563,7 @@ function pDev(d){
     var t='<div class="stage s-'+(x.s||"none")+'"><div class="stage-h">'+glyph(x.s)+'<div class="stage-t"><b>'+esc(e.n)+"</b>"+(e.auto?"":'<span class="sub" style="display:block">'+esc(e.opis)+"</span>")+'</div><span class="stn">'+esc(ST_N[x.s])+(x.c?" · "+odn(x.c):"")+"</span></div>";
     if(e.auto)t+=(x.t.length?'<ul class="lines">'+x.t.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+"</ul>":"");
     else{
-      t+='<div class="verdict">'+vb(k,"ok",x.s,"OK","ok")+vb(k,"brak",x.s,"Jeszcze nie","nie")+vb(k,"usterka",x.s,"Usterka","fault")+vb(k,"nd",x.s,"Nie dotyczy","na")+"</div>";
+      t+='<div class="verdict">'+vb(k,"ok",x.s,"OK","ok")+vb(k,"czesc",x.s,"Częściowo","part")+vb(k,"brak",x.s,"Jeszcze nie","nie")+vb(k,"usterka",x.s,"Usterka","fault")+vb(k,"nd",x.s,"Nie dotyczy","na")+"</div>";
       if(e.id==="lacz"&&d.syg.length){var okp=d.syg.filter(function(q){return pkt(q).s==="ok";}).length;t+='<span class="sub">Sygnały sprawdzone: '+okp+" z "+d.syg.length+"</span>";}
       t+='<input class="field" data-k="'+esc(k)+'" value="'+esc(x.uw)+'" placeholder="Uwaga — co zastano, co trzeba poprawić" aria-label="Uwaga do etapu '+esc(e.n)+'">'+(x.ts?'<span class="stamp">Zapisano '+kiedy(x.ts)+(x.s==="retest"?" · czeka na ponowny test":"")+"</span>":"");
     }
