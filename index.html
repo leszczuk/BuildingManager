@@ -291,7 +291,7 @@ tr.t-free td{color:var(--muted)}
 <button class="syncb" id="syncb" type="button" data-act="sync" hidden></button>
 
 <script>
-window.BM_ONLINE={"wersja":"512524ce0f"};
+window.BM_ONLINE={"wersja":"fad5484fba"};
 </script>
 <script>
 window.BM_start=function(){
@@ -383,6 +383,7 @@ function blk(src){
 
 /* ---------- etapy ---------- */
 var ST_N={ok:"OK",czesc:"częściowo",blok:"czeka na odpowiedź",brak:"jeszcze nie ma",usterka:"usterka",nd:"nie dotyczy",retest:"do ponownego testu","":"brak wpisu"};
+function opisEtapu(e,d){return d&&d.io&&e.opis_io?e.opis_io:e.opis;}
 function etap(d,e){
   if(e.auto){var a=(d.auto&&d.auto[e.id])||{s:"brak",t:[]};return {s:a.s,t:a.t||[],c:a.c,auto:true};}
   var r=get("e:"+d.id+":"+e.id)||{};return {s:r.s||"",uw:r.uw||"",ts:r.ts};
@@ -478,7 +479,7 @@ function vBudynek(){
   h+='<section class="card"><div class="card-h"><h2>Postęp według etapów</h2><span class="sub">'+all.length+' urządzeń</span></div><div class="funnel">'+ET.map(function(e){var c=licz(all,e);
     var t=[c.ok+" OK"];if(c.czesc)t.push(c.czesc+" częściowo");if(c.blok)t.push(c.blok+" czeka na odpowiedź");if(c.brak)t.push(c.brak+" jeszcze nie ma");if(c.usterka)t.push(c.usterka+" z usterką");if(c.retest)t.push(c.retest+" do ponownego testu");if(c.nd)t.push(c.nd+" nie dotyczy");if(c[""])t.push(c[""]+" bez wpisu");
     return '<div><div class="fn"><span class="mono">'+e.k+"</span> "+esc(e.n)+'</div></div><div>'+pasek(c)+'</div><div class="sub fc">'+t.join(" · ")+"</div>";}).join("")+"</div>"+
-    '<details><summary class="sub" style="cursor:pointer">Co oznaczają etapy i znaki</summary><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px"><ul class="lines">'+ET.map(function(e){return "<li><b>"+esc(e.n)+"</b> — "+esc(e.opis)+"</li>";}).join("")+"</ul>"+legenda()+"</div></details></section>";
+    '<details><summary class="sub" style="cursor:pointer">Co oznaczają etapy i znaki</summary><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px"><ul class="lines">'+ET.map(function(e){return "<li><b>"+esc(e.n)+"</b> — "+esc(e.opis)+(e.opis_io?" Urządzenia podpięte wprost do wejść i wyjść: "+esc(e.opis_io):"")+"</li>";}).join("")+"</ul>"+legenda()+"</div></details></section>";
   var M=[["pietra","Piętra"],["grupy","Grupy urządzeń"],["lacza","Łącza"],["ster","Sterowniki"]],rows;
   if(UI.mat==="ster")rows=STER.map(function(x){return {n:"Sterownik "+x,devs:all.filter(function(d){return d.ster===x;})};});
   else if(UI.mat==="grupy")rows=D.grupy.map(function(g){return {n:g.n,devs:all.filter(function(d){return d.gr===g.id;})};});
@@ -560,7 +561,7 @@ function kanalWiersz(k){
 function pDev(d){
   var h='<header class="head"><span class="eyebrow">'+esc(GR[d.gr]||"")+" · "+esc(PT[d.pietro]||"")+'</span><h1><span class="mono" style="font-size:.78em">'+esc(d.id)+"</span></h1><b>"+esc(d.n)+'</b><span class="sub">'+esc(d.model)+'</span><div class="r-pills">'+pills(d)+"</div></header>";
   h+='<section class="sec"><h4>Etapy</h4>'+ET.map(function(e){var x=etap(d,e),k="e:"+d.id+":"+e.id;
-    var t='<div class="stage s-'+(x.s||"none")+'"><div class="stage-h">'+glyph(x.s)+'<div class="stage-t"><b>'+esc(e.n)+"</b>"+(e.auto?"":'<span class="sub" style="display:block">'+esc(e.opis)+"</span>")+'</div><span class="stn">'+esc(ST_N[x.s])+(x.c?" · "+odn(x.c):"")+"</span></div>";
+    var t='<div class="stage s-'+(x.s||"none")+'"><div class="stage-h">'+glyph(x.s)+'<div class="stage-t"><b>'+esc(e.n)+"</b>"+(e.auto?"":'<span class="sub" style="display:block">'+esc(opisEtapu(e,d))+"</span>")+'</div><span class="stn">'+esc(ST_N[x.s])+(x.c?" · "+odn(x.c):"")+"</span></div>";
     if(e.auto)t+=(x.t.length?'<ul class="lines">'+x.t.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+"</ul>":"");
     else{
       t+='<div class="verdict">'+vb(k,"ok",x.s,"OK","ok")+vb(k,"czesc",x.s,"Częściowo","part")+vb(k,"brak",x.s,"Jeszcze nie","nie")+vb(k,"usterka",x.s,"Usterka","fault")+vb(k,"nd",x.s,"Nie dotyczy","na")+"</div>";
