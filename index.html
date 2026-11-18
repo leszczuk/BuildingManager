@@ -291,7 +291,7 @@ tr.t-free td{color:var(--muted)}
 <button class="syncb" id="syncb" type="button" data-act="sync" hidden></button>
 
 <script>
-window.BM_ONLINE={"wersja":"fad5484fba"};
+window.BM_ONLINE={"wersja":"8ebca6ad7d"};
 </script>
 <script>
 window.BM_start=function(){
@@ -624,7 +624,7 @@ function vMagistrale(){
   var td=D.tcp.urz.map(function(id){return U[id];});
   h+='<section class="card"><span class="eyebrow">Sterownik A101</span><div class="card-h"><h2>'+esc(D.tcp.n)+"</h2>"+minis(td)+'</div><dl class="meta"><div class="wide"><dt>Port</dt><dd>'+inl(D.tcp.port)+'</dd></div></dl><ul class="lines">'+D.tcp.uw.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+'</ul><div class="grp">'+wierszHd(1)+td.map(function(d){return wiersz(d,1);}).join("")+"</div></section>";
   var bd=D.bezMag.urz.map(function(id){return U[id];});
-  h+='<section class="card"><span class="eyebrow">Sterownik A101</span><div class="card-h"><h2>Modbus RTU bez przydzielonej magistrali</h2>'+minis(bd)+'</div><ul class="lines">'+D.bezMag.uw.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+'</ul><div class="grp">'+wierszHd(1)+bd.map(function(d){return wiersz(d,1);}).join("")+"</div></section>";
+  if(bd.length)h+='<section class="card"><span class="eyebrow">Sterownik A101</span><div class="card-h"><h2>Modbus RTU bez przydzielonej magistrali</h2>'+minis(bd)+'</div><ul class="lines">'+D.bezMag.uw.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+'</ul><div class="grp">'+wierszHd(1)+bd.map(function(d){return wiersz(d,1);}).join("")+"</div></section>";
   h+='<section class="card"><h2>Poza zakresem</h2><ul class="lines">'+D.poza.map(function(l){return "<li>"+inl(l)+"</li>";}).join("")+"</ul></section>";
   return h;
 }
